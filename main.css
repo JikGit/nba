@@ -1,8 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300&family=Playfair+Display&family=Roboto+Slab&display=swap');
+
 *{
     --topBarColor: #01579b;
-    --bgColor : #171717;
+    --bgColor: #171717;
+    --fgColor: #212224;
+    --borderColor: #ffffff33;
+    --fontSize : 14;
     margin: 0;
     box-sizing: border-box;
+    font-family: 'Exo 2', sans-serif;
 }
 
 a {
@@ -10,17 +16,18 @@ a {
     color:white;
 }
 
-
-
 body{
     background-color: var(--bgColor);
+    height: 100vh;
+    width: 100vw;
 }
 
 #topBar{
     color:white;
-    width: 100vw;
+    width: 100%;
     height: 100px;
     position: fixed;
+    z-index: 2;
     top: 0;
     background-color: var(--topBarColor);
 }
@@ -31,6 +38,8 @@ body{
     margin: 20px 60px;
 }
 
+
+/* LINKS */
 #topBar > #links{
     height: 60%;
     width: 100%;
@@ -43,27 +52,84 @@ body{
     text-transform: uppercase;
 }
 
-#topBar > #links *{
-    padding: 20px 45px;
+#topBar > #links *{padding: 20px 45px;}
+#topBar > #links *:hover{background-color: rgb(255, 255, 255, 0.2)}
+#topBar > #links *.selected{border-bottom: 2px solid white}
+
+/* STATES */
+.container.selected{
+    width: 800px;
+    height: 100%;
+    margin: auto;
+    font-size: calc(var(--fontSize) * 1px);
+    color: white;
 }
 
-#topBar > #links *:hover{
-    background-color: rgb(255, 255, 255, 0.2);
+/* MATCHES */
+#matches {
+    margin-top: 400px;
+    
+    /* flex del flex se lo lascio, potrebbe servire ma non sono sicuro
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: center; */
 }
 
-#topBar > #links *.selected{
-    border-bottom: 2px solid rgb(255, 255, 255);
+#matches > .giornata {
+    width: inherit;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    justify-content: center;
+}
+#matches > .giornata > .giornoNumber{
+    width: 100%;
+    border-top: 1px solid var(--borderColor);
+    border-bottom: 1px solid var(--borderColor); 
+    padding: 5px 30px; 
 }
 
-/* #topBar > #links *:hover::after{
+#matches > .giornata > .game {
+    width: 50%;
+    border: 1px rgb(255, 255, 255, 0.2) solid;
+    border-top: 0;
+    background-color: var(--fgColor);
+    height: 150px;
+    position: relative;
+}
+
+#matches > .giornata > .game * {position: absolute;}
+
+#matches > .giornata > .game > .squadra{
+    position: inherit;
+    opacity: 80%; 
+}
+
+/* cambiamento di design per la squadra vincente */
+#matches > .giornata > .game > .squadra.vincente {opacity: 100%; font-weight: bold}
+
+/* posizionamento del nomeSquadra/simboloVittoria/punteggio/dataPartita*/
+#matches > .giornata > .game > .squadra > .nomeSquadra{left: 60px}
+#matches > .giornata > .game > .squadra.casa{top: 40px}
+#matches > .giornata > .game > .squadra.trasferta{top: 80px}
+#matches > .giornata > .game > .squadra.vincente > i{right: 140px; margin-top: 2px;}
+#matches > .giornata > .game > .squadra > .punteggio {right: 110px}
+#matches > .giornata > .game > .dataPartita{
+    text-align: center;
+    top: 60px;
+    /* centro dello spazio lasciando 5 px destra e sinistra*/
+    right: 5px;
+    width: 80px;
+}
+
+/* barra verticale tra data e punteggio */
+#matches > .giornata > .game::after{
     content: "";
-    display: block;
     position: absolute;
-    bottom: 0;
-    height: 2px;
-    width: 7%;
-    background-color: rgb(255, 255, 255, 0.7);
+    right: 90px;
+    top: 10%;
+    height: 80%;
+    width: 1px;
+    background-color: var(--borderColor);
 }
- */
-
-
