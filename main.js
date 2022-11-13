@@ -17,6 +17,7 @@ async function getAllGames() {
     startDate = startDate.join('-');
     endDate = endDate.join('-');
     
+    
     let response = await fetch('https://www.balldontlie.io/api/v1/games?per_page=100&start_date=' + startDate + '&end_date=' + endDate);
     let games = await response.json()
     let data = games['data'];
@@ -33,9 +34,9 @@ async function getAllGames() {
 async function getDayGames(day, month = 0, year = 0) {
     if (month == 0) month = new Date().getMonth()+1;
     if (year == 0) year = new Date().getFullYear();
-    let date = new Date(year + '-' + month + '-' + day);
+    let date = year + '-' + month + '-' + day;
 
-    let response = await fetch('https://www.balldontlie.io/api/v1/games?per_page=100&dates=date')
+    let response = await fetch('https://www.balldontlie.io/api/v1/games?dates[]='+date)
     let games = await response.json()
     let data = games['data'];
     return data;
@@ -52,22 +53,26 @@ function getCurrentState(){
 // MATCHES
 if (getCurrentState().id == "matches"){
     getAllGames().then(data=> {
-        data.forEach((data) => {
-            const squadraCasa = data["home_team"]["name"];
-            const squadraTrasferta = data["visitor_team"]["name"];
-            let punteggioCasa = data["home_team_score"];
-            let punteggioTrasferta = data["visitor_team_score"];
-            const oraPartita = data["status"];
-            const dataGame = data["date"];
+        console.log(data)
+        const giornataElm = document.createElement("div");
+        const giornoNumberElm = document.createElement("p");
+        const dataGame = data[0]["date"].split("T")[0];
+        giornataElm.classList.add("giornata");
+        giornoNumberElm.classList.add("giornoNumber")
+        giornoNumberElm.innerHTML = dataGame;
+        giornataElm.appendChild(giornoNumberElm);
 
-            const giornataElm = document.createElement("div");
-            const giornoNumberElm = document.createElement("p");
+        data.forEach((games) => {
+            const squadraCasa = games["home_team"]["name"];
+            const squadraTrasferta = games["visitor_team"]["name"];
+            let punteggioCasa = games["home_team_score"];
+            let punteggioTrasferta = games["visitor_team_score"];
+            const oraPartita = games["status"];
+
             const gameElm = document.createElement("div");
             const oraPartitaElm = document.createElement("p");
             const frecciaElm = document.createElement("i");
 
-            giornataElm.classList.add("giornata");
-            giornoNumberElm.classList.add("giornoNumber")
             gameElm.classList.add("game")
             oraPartitaElm.classList.add("dataPartita");
             frecciaElm.classList.add('fa-solid', 'fa-arrow-right');
@@ -97,7 +102,7 @@ if (getCurrentState().id == "matches"){
             nomeTrasfertaElm.innerHTML = squadraTrasferta;
             punteggioTrasfertaElm.innerHTML = punteggioTrasferta;
 
-            //setto l'elemento data partita, se gia' fatta => "conclusa"
+            //setto l'elemento games partita, se gia' fatta => "conclusa"
             // se ancora da giocare niente punteggi
             if (oraPartita == "Final"){
                 punteggioCasa == "";
@@ -126,12 +131,9 @@ if (getCurrentState().id == "matches"){
             gameElm.appendChild(oraPartitaElm);
 
             giornataElm.appendChild(gameElm);
-            giornataElm.appendChild(giornoNumberElm);
-        
-            matches.appendChild(giornataElm)
 
         })
-        console.log(data)
+        matches.appendChild(giornataElm)
     })
 }
 
