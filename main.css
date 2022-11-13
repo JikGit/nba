@@ -1,11 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300&family=Playfair+Display&family=Roboto+Slab&display=swap');
 
+:root{
+        /* px */
+        --topBarHeight: 130;
+        --containerWidth: 700;
+        --gameDivHeight: 100;
+        --fontSize : 13;
+        --nbaFontSize: 25;
+        --linkFontSize: 18;
+    
+        --topBarColor: #01579b;
+        --bgColor: #171717;
+        --fgColor: #212224;
+        --fgColorHover: #020202;
+        --borderColor: #ffffff33;
+}
+
 *{
-    --topBarColor: #01579b;
-    --bgColor: #171717;
-    --fgColor: #212224;
-    --borderColor: #ffffff33;
-    --fontSize : 14;
     margin: 0;
     box-sizing: border-box;
     font-family: 'Exo 2', sans-serif;
@@ -25,7 +36,7 @@ body{
 #topBar{
     color:white;
     width: 100%;
-    height: 100px;
+    height: calc(var(--topBarHeight) * 1px);
     position: fixed;
     z-index: 2;
     top: 0;
@@ -34,7 +45,7 @@ body{
 
 /* nba sign */
 #topBar #title{
-    font-size: 25px;
+    font-size: calc(var(--nbaFontSize) * 1px);
     margin: 20px 60px;
 }
 
@@ -48,7 +59,7 @@ body{
     display: flex;   
     flex-direction: row; 
     justify-content: center;
-    font-size: 18px;
+    font-size: calc(var(--linkFontSize) * 1px);
     text-transform: uppercase;
 }
 
@@ -58,7 +69,7 @@ body{
 
 /* STATES */
 .container.selected{
-    width: 800px;
+    width: calc(var(--containerWidth) * 1px);
     height: 100%;
     margin: auto;
     font-size: calc(var(--fontSize) * 1px);
@@ -66,15 +77,8 @@ body{
 }
 
 /* MATCHES */
-#matches {
-    margin-top: 400px;
-    
-    /* flex del flex se lo lascio, potrebbe servire ma non sono sicuro
-    display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    justify-content: center; */
-}
+/* tolgo la topBar */
+#matches {margin-top: calc(var(--topBarHeight) * 1px);}
 
 #matches > .giornata {
     width: inherit;
@@ -92,15 +96,17 @@ body{
 
 #matches > .giornata > .game {
     width: 50%;
+    height: calc(var(--gameDivHeight) * 1px);
     border: 1px rgb(255, 255, 255, 0.2) solid;
     border-top: 0;
     background-color: var(--fgColor);
-    height: 150px;
     position: relative;
 }
 
-#matches > .giornata > .game * {position: absolute;}
+/* se passo sopra diventa scuro */
+#matches > .giornata > .game:hover{background-color: var(--fgColorHover);}
 
+#matches > .giornata > .game * {position: absolute;}
 #matches > .giornata > .game > .squadra{
     position: inherit;
     opacity: 80%; 
@@ -110,14 +116,14 @@ body{
 #matches > .giornata > .game > .squadra.vincente {opacity: 100%; font-weight: bold}
 
 /* posizionamento del nomeSquadra/simboloVittoria/punteggio/dataPartita*/
-#matches > .giornata > .game > .squadra > .nomeSquadra{left: 60px}
-#matches > .giornata > .game > .squadra.casa{top: 40px}
-#matches > .giornata > .game > .squadra.trasferta{top: 80px}
+#matches > .giornata > .game > .squadra > .nomeSquadra{left: 80px}
+#matches > .giornata > .game > .squadra.casa{top: 23px}
+#matches > .giornata > .game > .squadra.trasferta{top: 59px}
 #matches > .giornata > .game > .squadra.vincente > i{right: 140px; margin-top: 2px;}
 #matches > .giornata > .game > .squadra > .punteggio {right: 110px}
 #matches > .giornata > .game > .dataPartita{
     text-align: center;
-    top: 60px;
+    top: 42px;
     /* centro dello spazio lasciando 5 px destra e sinistra*/
     right: 5px;
     width: 80px;
@@ -132,4 +138,30 @@ body{
     height: 80%;
     width: 1px;
     background-color: var(--borderColor);
+}
+
+@media only screen and (max-width: 600px) {
+    :root{
+        /* px */
+        --topBarHeight: 65;
+        --containerWidth: 300;
+        --gameDivHeight: 50;
+        --fontSize : 10;
+        --nbaFontSize: 12;
+        --linkFontSize: 10;
+    }
+
+    #topBar > #links *{padding: 20px 20px;}
+    #matches > .giornata > .game > .squadra > .nomeSquadra{left: 10px}
+    #matches > .giornata > .game > .squadra.casa{top: 11px}
+    #matches > .giornata > .game > .squadra.trasferta{top: 25px}
+    #matches > .giornata > .game > .squadra.vincente > i{right: 75px; margin-top: 1px;}
+    #matches > .giornata > .game > .squadra > .punteggio {right: 55px}
+    #matches > .giornata > .game > .dataPartita{
+        top: 15px;
+        right: 2px;
+        width: 40px;
+    }
+    #matches > .giornata > .game::after{right: 45px};
+
 }
